@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FAQ - Arquivador Club do Carlinhos</title>
   <link rel="icon" type="image/x-icon" href="src/media/icon/favicon.ico">
   <link rel="stylesheet" href="src/scripts/style.css">
@@ -25,7 +25,7 @@
       <div class="faq-item">
         <p class="faq-question"><strong>Como funciona o arquivador?</strong></p>
         <p class="faq-answer">
-          O bot fica online uma vez ao dia, baixando todos os arquivos e mensagens do servidor e compactando-os em um arquivo no formato .tar.gz. Para a segurança de todos, o arquivo é criptografado com senha.
+          O bot fica online uma vez ao dia, baixando todos os arquivos e mensagens do servidor e compactando-os em um arquivo no formato .tar.gz.
         </p>
       </div>
       
@@ -53,11 +53,17 @@
   </main>
 
   <footer>
-    <p>&copy; <span id="footer-year"></span> Club do Carlinhos. Todos os direitos reservados.</p>
+    <p>
+      &copy; <span id="footer-year"></span> Club do Carlinhos. Todos os direitos reservados.
+      &mdash; <a href="termos.html">Termos de Uso</a> | <a href="https://files.catbox.moe/hz2ji2.mp4">Política de Privacidade</a>
+    </p>
   </footer>
 
-  <!-- Carrega o loopify antes do script principal -->
+  <!-- Scripts -->
   <script src="src/scripts/loopify.js"></script>
   <script src="src/scripts/script.js"></script>
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
