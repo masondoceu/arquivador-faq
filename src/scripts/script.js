@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener("keydown", (e) => {
     currentSequence += e.key.toLowerCase();
-    // Se a sequência atual não for prefixo da sequência desejada, reinicia
+    // Se a sequência atual não for prefixo da desejada, reinicia
     if (!easterSequence.startsWith(currentSequence)) {
       currentSequence = e.key.toLowerCase() === "c" ? "c" : "";
     }
@@ -21,15 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-function triggerEasterEgg() { 
+function triggerEasterEgg() {
   // Remove todo o conteúdo da página
   document.body.innerHTML = "";
 
-  // Cria um overlay com fundo preto preenchendo a tela
+  // Cria um overlay com fundo preto
   const overlay = document.createElement("div");
   overlay.id = "easter-egg-overlay";
-  
-  // Cria o elemento de imagem com o posicionamento exigido
+
+  // Cria o elemento de imagem com posicionamento exigido
   const img = document.createElement("img");
   img.src = "src/media/images/corintia.png";
   img.alt = "Corintia";
@@ -37,19 +37,19 @@ function triggerEasterEgg() {
   overlay.appendChild(img);
   document.body.appendChild(overlay);
 
-  // Função para ajustar a animação de brilho aleatória
+  // Função para ajustar aleatoriamente a duração da animação (em ms)
   function randomizeFlicker() {
-    const randomDuration = (Math.random() * 500) + 100; // Entre 100ms e 600ms
+    const randomDuration = Math.floor(Math.random() * 500) + 100; // entre 100ms e 600ms
     img.style.animationDuration = `${randomDuration}ms`;
   }
+  setInterval(randomizeFlicker, 500);
 
-  setInterval(randomizeFlicker, 500); // Ajuste a cada 500ms
-
-  // Inicia a reprodução da música usando o loopify (ou fallback se não existir)
+  // Inicia a música usando Loopify (passando o elemento de áudio)
   if (typeof loopify === "function") {
-    loopify("src/media/sounds/bgm055.ogg");
+    const audio = new Audio("src/media/sounds/bgm055.ogg");
+    loopify(audio);
   } else {
-    // Fallback: reprodução manual em loop
+    // Fallback caso a função não esteja disponível
     const audio = new Audio("src/media/sounds/bgm055.ogg");
     audio.loop = true;
     audio.play();
