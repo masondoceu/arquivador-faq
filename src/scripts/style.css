@@ -84,10 +84,10 @@ footer {
   height: auto;
   animation: flicker 2s infinite alternate;
   pointer-events: none; /* Não clicável */
-  user-select: none;  /* Não copiável */
+  user-select: none;   /* Não copiável */
 }
 
-/* Animação de piscada com duração ajustada via JavaScript */
+/* Animação de flicker (ajustada via JavaScript para duração aleatória) */
 @keyframes flicker {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.2; }

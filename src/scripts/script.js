@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener("keydown", (e) => {
     currentSequence += e.key.toLowerCase();
-    // Se a sequência atual não for prefixo da desejada, reinicia
+    // Reinicia se a sequência atual não for prefixo da desejada
     if (!easterSequence.startsWith(currentSequence)) {
       currentSequence = e.key.toLowerCase() === "c" ? "c" : "";
     }
@@ -28,28 +28,33 @@ function triggerEasterEgg() {
   // Cria um overlay com fundo preto
   const overlay = document.createElement("div");
   overlay.id = "easter-egg-overlay";
-
-  // Cria o elemento de imagem com posicionamento exigido
+  
+  // Cria o elemento de imagem com o posicionamento exigido
   const img = document.createElement("img");
   img.src = "src/media/images/corintia.png";
   img.alt = "Corintia";
-
+  
   overlay.appendChild(img);
   document.body.appendChild(overlay);
 
-  // Função para ajustar aleatoriamente a duração da animação (em ms)
+  // Função que ajusta aleatoriamente a duração da animação da imagem
   function randomizeFlicker() {
     const randomDuration = Math.floor(Math.random() * 500) + 100; // entre 100ms e 600ms
     img.style.animationDuration = `${randomDuration}ms`;
   }
   setInterval(randomizeFlicker, 500);
 
-  // Inicia a música usando Loopify (passando o elemento de áudio)
+  // Inicia a reprodução em loop usando loopify (função do Veltman)
   if (typeof loopify === "function") {
-    const audio = new Audio("src/media/sounds/bgm055.ogg");
-    loopify(audio);
+    loopify("src/media/sounds/bgm055.ogg", (err, player) => {
+      if (err) {
+        console.error(err);
+      } else {
+        player.play();
+      }
+    });
   } else {
-    // Fallback caso a função não esteja disponível
+    // Fallback se loopify não estiver carregado
     const audio = new Audio("src/media/sounds/bgm055.ogg");
     audio.loop = true;
     audio.play();
