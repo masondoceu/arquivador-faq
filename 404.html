@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>404 – Nada Aqui</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="icon" type="image/x-icon" href="./src/media/icon/favicon.ico">
+  <meta property="og:video:secure_url" content="https://files.catbox.moe/2682nx.mp4">
+  <meta property="og:video" content="https://files.catbox.moe/2682nx.mp4">
+  <meta property="og:type" content="video.other">
+  <meta property="og:video:type" content="video/mp4">
+  <meta property="title" content="AI... PORRA... CARALHO... PORRA MEU...">
+  <title>404 – Nada Aqui.</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100vh;
-      background-color: #000;
+      background: #000;
       color: #fff;
       font-family: 'Courier New', Courier, monospace;
       display: flex;
@@ -17,66 +23,136 @@
       justify-content: space-between;
       align-items: center;
       text-align: center;
-      overflow: hidden;
+      overflow: visible; /* deixa o zoom vazar */
     }
 
     .text-wrapper {
       padding-top: 40px;
     }
-
     .main-text {
       font-size: 2rem;
       margin-bottom: 10px;
-      letter-spacing: 0.1em;
+      letter-spacing: .1em;
     }
-
     .random-text {
       font-size: 1.2rem;
-      letter-spacing: 0.05em;
+      letter-spacing: .05em;
     }
 
     .image-wrapper {
+      position: relative;
       width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
+      height: 0;      /* não ocupa altura própria */
+      overflow: visible;
     }
 
-    .image-wrapper img {
-      display: block;
-      max-width: 100%;
+    #blink-img {
+      position: absolute;
+      left: 5%;
+      bottom: 0;
+      width: 90%;
       height: auto;
-      margin: 0;
-      padding: 0;
-      transform: translateX(-8%);
+      user-select: none;
+      transform: scale(1.3);          /* xereca 30% maior */
+      transform-origin: 50% 100%;     /* centro-inferior */
+    }
+
+    #audio-warning {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 999;
+    }
+    #audio-warning.hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
+
+  <div id="audio-warning">CLIQUE OU TOQUE PARA HABILITAR O SOM</div>
+
   <div class="text-wrapper">
     <div class="main-text">NÃO HÁ NADA AQUI.</div>
     <div class="random-text" id="random-text"></div>
   </div>
 
   <div class="image-wrapper">
-    <img src="./src/media/images/bizarrinhos.png" alt="Imagem Macabra">
+    <img id="blink-img"
+         src="./src/media/images/bizarrinhos.png"
+         alt="CORRA." />
   </div>
 
+  <audio id="bgm"
+         src="./src/media/sounds/2kki/カン ゲ カゼ コウヤ.ogg"
+         loop preload="auto"></audio>
+  <audio id="sfx"
+         src="./src/media/sounds/bizarrinhos.ogg"
+         preload="auto"></audio>
+
   <script>
-    (function() {
-      const messages = [
+    document.addEventListener("DOMContentLoaded", ()=> {
+      const warning   = document.getElementById("audio-warning");
+      const randomTxt = document.getElementById("random-text");
+      const blinkImg  = document.getElementById("blink-img");
+      const bgm       = document.getElementById("bgm");
+      const sfx       = document.getElementById("sfx");
+      const openSrc   = "./src/media/images/bizarrinhos.png";
+      const closeSrc  = "./src/media/images/bizarrinhos-fechado.png";
+      const messages  = [
         "CORRA DAQUI IMEDIATAMENTE.",
         "FUJA ENQUANTO HÁ TEMPO.",
         "SE ESCONDA IMEDIATAMENTE.",
-        "ELE JÁ TE VIU...",
+        "ELES JÁ TE VIRAM.",
         "NÃO HÁ MAIS NADA A SER FEITO.",
         "...MAS ALGUÉM AINDA PODE ESTAR AQUI.",
         "TOME CUIDADO. ELE ESTÁ PRÓXIMO."
       ];
 
-      const idx = Math.floor(Math.random() * messages.length);
-      document.getElementById("random-text").innerText = messages[idx];
-    })();
+      // sorteia texto de aviso
+      randomTxt.innerText = messages[
+        Math.floor(Math.random() * messages.length)
+      ];
+
+      // cache da imagem de olhos fechados
+      new Image().src = closeSrc;
+
+      // agendamento do piscar (5–10s)
+      function scheduleBlink() {
+        const delay = 5000 + Math.random() * 5000;
+        setTimeout(() => {
+          blinkImg.src = closeSrc;
+          setTimeout(() => {
+            blinkImg.src = openSrc;
+            scheduleBlink();
+          }, 100);
+        }, delay);
+      }
+
+      // inicialização após o primeiro clique/touch
+      function initAudio() {
+        warning.classList.add("hidden");
+        warning.removeEventListener("click", initAudio);
+        document.body.removeEventListener("click", initAudio);
+
+        bgm.play().catch(console.error);
+
+        // bizarrinhos fala entre 1–21s UMA ÚNICA VEZ
+        const sd = 1000 + Math.random() * 20000;
+        setTimeout(() => sfx.play().catch(console.error), sd);
+
+        scheduleBlink();
+      }
+
+      warning.addEventListener("click", initAudio);
+      document.body.addEventListener("click", initAudio);
+    });
   </script>
 </body>
 </html>
