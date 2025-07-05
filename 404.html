@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 – Nada Aqui</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .text-wrapper {
+      padding-top: 40px;
+    }
+
+    .main-text {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      letter-spacing: 0.1em;
+    }
+
+    .random-text {
+      font-size: 1.2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .image-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .image-wrapper img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      transform: translateX(-8%);
+    }
+  </style>
+</head>
+<body>
+  <div class="text-wrapper">
+    <div class="main-text">NÃO HÁ NADA AQUI.</div>
+    <div class="random-text" id="random-text"></div>
+  </div>
+
+  <div class="image-wrapper">
+    <img src="./src/media/images/bizarrinhos.png" alt="Imagem Macabra">
+  </div>
+
+  <script>
+    (function() {
+      const messages = [
+        "CORRA DAQUI IMEDIATAMENTE.",
+        "FUJA ENQUANTO HÁ TEMPO.",
+        "SE ESCONDA IMEDIATAMENTE.",
+        "ELE JÁ TE VIU...",
+        "NÃO HÁ MAIS NADA A SER FEITO.",
+        "...MAS ALGUÉM AINDA PODE ESTAR AQUI.",
+        "TOME CUIDADO. ELE ESTÁ PRÓXIMO."
+      ];
+
+      const idx = Math.floor(Math.random() * messages.length);
+      document.getElementById("random-text").innerText = messages[idx];
+    })();
+  </script>
+</body>
+</html>
